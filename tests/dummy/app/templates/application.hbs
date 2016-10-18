@@ -1,0 +1,26 @@
+{{#if show}}
+  {{#parent-component}}
+
+    {{#child-component name=1}}{{/child-component}}
+    {{#child-component name=2}}{{/child-component}}
+
+    {{#if showParentChild}}
+      {{#child-parent-component name=3}}
+
+        {{#if showChild}}
+          {{#child-component name=4}}{{/child-component}}
+        {{/if}}
+
+        {{#child-component name=5}}{{/child-component}}
+
+      {{/child-parent-component}}
+    {{/if}}
+
+  {{/parent-component}}
+{{/if}}
+
+<br>
+
+<button onclick={{action "toggle" "show"}}>Toggle</button>
+<button onclick={{action "toggle" "showParentChild"}}>Toggle parent-child</button>
+<button onclick={{action "toggle" "showChild"}}>Toggle child</button>
