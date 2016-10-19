@@ -2,11 +2,11 @@ import Ember from 'ember';
 const { Mixin, A, tryInvoke } = Ember;
 
 export default Mixin.create({
-  _childComponents: null,
+  childComponents: null,
 
   init() {
     this._super(...arguments);
-    this._childComponents = new A();
+    this.childComponents = new A();
   },
 
   didInsertElement() {
@@ -35,9 +35,9 @@ export default Mixin.create({
   },
 
   invokeChildDidInsertHooks() {
-    this._childComponents.invoke('didInsertParent');
-    this._childComponents.setEach('_didInsert', true);
-    this._childComponents.invoke('invokeChildDidInsertHooks');
+    this.childComponents.invoke('didInsertParent');
+    this.childComponents.setEach('_didInsert', true);
+    this.childComponents.invoke('invokeChildDidInsertHooks');
   },
 
   destroySelfAndChildren() {
@@ -47,17 +47,17 @@ export default Mixin.create({
   },
 
   destroyChildren() {
-    this._childComponents.reverseObjects();
+    this.childComponents.reverseObjects();
     // if we have child-parents, destroy their children as well
-    this._childComponents.invoke('destroyChildren');
+    this.childComponents.invoke('destroyChildren');
     // destroy children
-    this._childComponents.invoke('willDestroyParent');
-    this._childComponents.setEach('_didInsert', false);
-    this._childComponents.clear();
+    this.childComponents.invoke('willDestroyParent');
+    this.childComponents.setEach('_didInsert', false);
+    this.childComponents.clear();
   },
 
   registerChild(childComponent) {
-    this._childComponents.addObject(childComponent);
+    this.childComponents.addObject(childComponent);
 
     // If parent already setup, setup child immediately
     if (this._didInsert) {
@@ -68,7 +68,7 @@ export default Mixin.create({
   },
 
   unregisterChild(childComponent) {
-    this._childComponents.removeObject(childComponent);
+    this.childComponents.removeObject(childComponent);
 
     // If parent already setup, teardown child immediately
     if (childComponent._didInsert) {

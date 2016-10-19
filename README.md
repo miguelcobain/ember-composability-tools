@@ -85,11 +85,11 @@ L.tileLayer(this.get('url')).addTo(this.get('parentComponent')._mapInstance);
 
 `parentComponent` is available on any component that includes the `ChildMixin` and is used inside the block of a component that includes the `ParentMixin`.
 
-Likewise, the `_childComponents` property is available on a component that includes the `ParentMixin`:
+Likewise, the `childComponents` property is available on a component that includes the `ParentMixin`:
 
 ```js
 // invoke draw on all child components
-this.get('_childComponents').invoke('draw');
+this.get('childComponents').invoke('draw');
 ```
 
 ### 3. Render blocks as DOM, but not to the document
