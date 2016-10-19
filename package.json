@@ -1,7 +1,7 @@
 {
   "name": "ember-composability-tools",
-  "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.0",
+  "description": "Helpers for building a somewhat different kind of components.",
   "directories": {
     "doc": "doc",
     "test": "tests"
