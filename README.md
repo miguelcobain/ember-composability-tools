@@ -13,7 +13,7 @@ ember install ember-composability-tools
 
 ## Background and motivation
 
-This addon was essencially extracted from the [ember-leaflet](https://github.com/miguelcobain/ember-leaflet) and then adapted for generic scenarios. The idea behind ember-leaflet is to compose components the usual way, but to have them produce leaflet layers and not DOM. To do that, we decided to use Ember's (component lifecycle hooks)[https://guides.emberjs.com/v2.8.0/components/the-component-lifecycle/] to create the leaflet layers and not produce any DOM (tagless and blockless* components).
+This addon was essencially extracted from the [ember-leaflet](https://github.com/miguelcobain/ember-leaflet) and then adapted for generic scenarios. The idea behind ember-leaflet is to compose components the usual way, but to have them produce leaflet layers and not DOM. To do that, we decided to use Ember's [component lifecycle hooks](https://guides.emberjs.com/v2.8.0/components/the-component-lifecycle/) to create the leaflet layers and not produce any DOM (tagless and blockless* components).
 
 This idea sounded good in theory, but in practice some problems appeared. The following sections will illustrate both those problems and how **ember-composability-tools** helps solving them.
 
