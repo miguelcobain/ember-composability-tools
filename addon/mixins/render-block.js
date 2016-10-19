@@ -10,6 +10,6 @@ export default Mixin.create({
 
   // creates a document fragment that will hold the DOM
   destinationElement: computed(function() {
-    return document.createElement(this.get('wrapperElementTag'));
+    return document.createElement(this.get('destinationElementTag'));
   })
 });
