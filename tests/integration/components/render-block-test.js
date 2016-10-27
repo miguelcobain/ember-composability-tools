@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import RenderBlock from 'ember-composability-tools/mixins/render-block';
+import { RenderBlockMixin } from 'ember-composability-tools';
 
 const { Component, run } = Ember;
 
@@ -10,7 +10,7 @@ let component;
 moduleForComponent('render-block', 'Integration | Component | render block', {
   integration: true,
   beforeEach() {
-    let renderBlockComponent = Component.extend(RenderBlock, {
+    let renderBlockComponent = Component.extend(RenderBlockMixin, {
       init() {
         this._super(...arguments);
         component = this;

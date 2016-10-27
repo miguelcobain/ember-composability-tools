@@ -1,8 +1,10 @@
 import Ember from 'ember';
-const { Mixin, A, tryInvoke } = Ember;
+const { Mixin, K, A, tryInvoke } = Ember;
 
 export default Mixin.create({
-  childComponents: null,
+
+  didInsertParent: K,
+  willDestroyParent: K,
 
   init() {
     this._super(...arguments);
