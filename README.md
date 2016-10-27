@@ -60,7 +60,34 @@ didInsertElement <-- leaflet-map
 The render hooks start being called on children, which is not compatible with our 3rd party API logic.
 Also, we need to use `didInsertElement` at least on `leaflet-map` because we need to make sure an element is available to create a map (`L.map(this.element)`). This is a very common pattern, not only with leaflet.
 
-**ember-composability-tools** fixes this problem providing components new render and destroy hooks that trigger in our desired order. You just need to include `ChildMixin` on child components and `ParentMixin` on parent components.
+Likewise, the destroy lifecycle hooks are not called in the desired order.
+
+**ember-composability-tools** fixes this problem providing components new render and destroy hooks that trigger in our desired order. You just need to include `ChildMixin` on child components and `ParentMixin` on parent components. Example:
+
+```js
+import Ember from 'ember';
+import { ParentMixin } from 'ember-composability-tools';
+const { Component } = Ember;
+
+export default Component.extend(ParentMixin, {
+  didInsertParent() {
+    this._super(...arguments);
+    // The topmost parent hook call.
+    // Here we have a `this.element` available and
+    // we are certain that none of the children's
+    // `didInsertParent` hooks were called
+  },
+  willDestroyParent() {
+    this._super(...arguments);
+    // the reverse is applied here.
+    // We are certain that this call will take place
+    // when all of the children's `willDestroyParent`
+    // were called.
+  }
+});
+```
+
+The same hooks are available when using `ChildMixin`.
 
 Note that a component can be a child and a parent at the same time. e.g `marker-layer` is a child to `leaflet-map` but a parent to `popup-layer`. In that case just include both mixins. They are compatible.
 
@@ -117,7 +144,22 @@ At first sight one might ask "Why not just `this.$()` or `this.element`?". The p
 
 **ember-composability-tools** solves this problem by rendering the component's block to an element created by the component itself (using `document.createElement()`).
 
-TODO: explain how to use this. Come up with better naming.
+To use this functionality you just need to include the `RenderBlockMixin`. By default, the `RenderBlockMixin` doesn't render anything to the `destinationElement`. This way you don't render anything you don't want to. You control when to render by setting `shouldRender` to `true` or `false`.
+
+Example:
+
+```js
+import Ember from 'ember';
+import { RenderBlockMixin } from 'ember-composability-tools';
+const { Component } = Ember;
+
+export default Component.extend(RenderBlockMixin, {
+  // use `this.get('destinationElement')` in the component context
+  // in this case we decided to always render the block
+  // so we set shouldRender to true at init time.
+  shouldRender: true
+});
+```
 
 ## Contribution
 
