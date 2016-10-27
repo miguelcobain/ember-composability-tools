@@ -62,7 +62,7 @@ Also, we need to use `didInsertElement` at least on `leaflet-map` because we nee
 
 Likewise, the destroy lifecycle hooks are not called in the desired order.
 
-**ember-composability-tools** fixes this problem providing components new render and destroy hooks that trigger in our desired order. You just need to include `ChildMixin` on child components and `ParentMixin` on parent components. Example:
+**ember-composability-tools** fixes this problem providing components new render and destroy hooks that trigger in our desired order. Those hooks are called `didInsertParent` and `willDestroyParent`. You just need to include `ChildMixin` on child components and `ParentMixin` on parent components to have access to them. Example:
 
 ```js
 import Ember from 'ember';
