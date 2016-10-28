@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:each"
   },
-  "repository": "https://github.com/miguelcobain/ember-paper",
+  "repository": "https://github.com/miguelcobain/ember-composability-tools",
   "engines": {
     "node": ">= 0.10.0"
   },
