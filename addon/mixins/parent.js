@@ -1,10 +1,7 @@
 import Ember from 'ember';
-const { Mixin, K, A, tryInvoke } = Ember;
+const { Mixin, A, tryInvoke } = Ember;
 
 export default Mixin.create({
-
-  didInsertParent: K,
-  willDestroyParent: K,
 
   init() {
     this._super(...arguments);
@@ -17,7 +14,7 @@ export default Mixin.create({
     // If we are a top-level parent, we should start
     // the `didInsertParent` call chain, starting with ourselves
     if (!this.get('parentComponent')) {
-      this.didInsertParent();
+      tryInvoke(this, 'didInsertParent');
       this._didInsert = true;
       this.invokeChildDidInsertHooks();
     }
@@ -44,7 +41,7 @@ export default Mixin.create({
 
   destroySelfAndChildren() {
     this.destroyChildren();
-    this.willDestroyParent();
+    tryInvoke(this, 'willDestroyParent');
     this._didInsert = false;
   },
 
@@ -63,7 +60,7 @@ export default Mixin.create({
 
     // If parent already setup, setup child immediately
     if (this._didInsert) {
-      childComponent.didInsertParent();
+      tryInvoke(childComponent, 'didInsertParent');
       childComponent._didInsert = true;
       tryInvoke(childComponent, 'invokeChildDidInsertHooks');
     }

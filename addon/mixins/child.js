@@ -1,11 +1,8 @@
 import Ember from 'ember';
 import ParentMixin from './parent';
-const { Mixin, computed, assert, K } = Ember;
+const { Mixin, computed, assert, tryInvoke } = Ember;
 
 export default Mixin.create({
-
-  didInsertParent: K,
-  willDestroyParent: K,
 
   // This is intended as an escape hatch, but ideally you would
   // `{{yield` a a child contextual component with `parentComponent=this`
@@ -24,7 +21,7 @@ export default Mixin.create({
   },
 
   destroySelfAndChildren() {
-    this.willDestroyParent();
+    tryInvoke(this, 'willDestroyParent');
     this._didInsert = false;
   },
 
