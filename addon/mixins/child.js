@@ -5,7 +5,7 @@ const { Mixin, computed, assert, tryInvoke } = Ember;
 export default Mixin.create({
 
   // This is intended as an escape hatch, but ideally you would
-  // `{{yield` a a child contextual component with `parentComponent=this`
+  // `{{yield` a child contextual component with `parentComponent=this`
   parentComponent: computed(function() {
     return this.nearestOfType(ParentMixin);
   }),
