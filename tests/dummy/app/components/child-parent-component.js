@@ -3,7 +3,7 @@ import ChildMixin from 'ember-composability-tools/mixins/child';
 import ParentMixin from 'ember-composability-tools/mixins/parent';
 const { Component } = Ember;
 
-export default Component.extend(ChildMixin, ParentMixin, {
+export default Component.extend(ParentMixin, ChildMixin, {
   didInsertParent() {
     this._super(...arguments);
     console.log('didInsertParent - child-parent');

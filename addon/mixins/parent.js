@@ -5,6 +5,12 @@ export default Mixin.create({
 
   init() {
     this._super(...arguments);
+    tryInvoke(this, 'initParent');
+    tryInvoke(this, 'initChild');
+  },
+
+  initParent() {
+    this._super(...arguments);
     this.childComponents = new A();
   },
 
@@ -21,6 +27,16 @@ export default Mixin.create({
   },
 
   willDestroyElement() {
+    this._super(...arguments);
+    if (!this._isComposableDestroying) {
+      this._isComposableDestroying = true;
+      tryInvoke(this, 'willDestroyElementParent');
+      tryInvoke(this, 'willDestroyElementChild');
+    }
+  },
+
+  willDestroyElementParent() {
+    this._super(...arguments);
 
     // this wook will be called depth-first from the top-level component
     // since we must destroy childs first, the first parent will
@@ -29,8 +45,6 @@ export default Mixin.create({
     if (this._didInsert) {
       this.destroySelfAndChildren();
     }
-
-    this._super(...arguments);
   },
 
   invokeChildDidInsertHooks() {
@@ -59,7 +73,7 @@ export default Mixin.create({
     this.childComponents.addObject(childComponent);
 
     // If parent already setup, setup child immediately
-    if (this._didInsert) {
+    if (this._didInsert && !childComponent._didInsert) {
       tryInvoke(childComponent, 'didInsertParent');
       childComponent._didInsert = true;
       tryInvoke(childComponent, 'invokeChildDidInsertHooks');

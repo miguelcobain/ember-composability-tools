@@ -4,10 +4,12 @@ const { Component } = Ember;
 
 export default Component.extend(ChildMixin, {
   didInsertParent() {
+    this._super(...arguments);
     console.log('didInsertParent - child');
   },
 
   willDestroyParent() {
+    this._super(...arguments);
     console.log('willDestroyParent - child');
   }
 });

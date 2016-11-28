@@ -35,15 +35,15 @@ test('top-level parent and two children after if', function(assert) {
 
   this.render(hbs`
     {{#if show}}
-      {{#parent-component willDestroyParent=parentSpy}}
-        {{child-component willDestroyParent=childSpy}}
-        {{child-component willDestroyParent=childSpy}}
+      {{#parent-component id="p1" willDestroyParent=parentSpy}}
+        {{child-component id="c1" willDestroyParent=childSpy}}
+        {{child-component id="c2" willDestroyParent=childSpy}}
         {{#if showParentChild}}
-          {{#child-parent-component willDestroyParent=childParentSpy}}
+          {{#child-parent-component id="cp1" willDestroyParent=childParentSpy}}
             {{#if showChild}}
-              {{child-component willDestroyParent=childSpy}}
+              {{child-component id="c3" willDestroyParent=childSpy}}
             {{/if}}
-            {{child-component willDestroyParent=childSpy}}
+            {{child-component id="c4" willDestroyParent=childSpy}}
           {{/child-parent-component}}
         {{/if}}
       {{/parent-component}}

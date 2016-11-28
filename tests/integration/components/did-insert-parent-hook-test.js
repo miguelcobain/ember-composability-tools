@@ -77,7 +77,7 @@ test('top-level parent and two children-parents after if', function(assert) {
   this.render(hbs`
     {{#parent-component didInsertParent=parentSpy}}
       {{#if show}}
-        {{#child-parent-component didInsertParent=childParentSpy}}
+        {{#child-parent-component id="cp" didInsertParent=childParentSpy}}
           {{child-component didInsertParent=childSpy}}
           {{child-component didInsertParent=childSpy}}
         {{/child-parent-component}}

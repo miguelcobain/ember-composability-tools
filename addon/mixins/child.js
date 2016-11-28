@@ -10,12 +10,27 @@ export default Mixin.create({
     return this.nearestOfType(ParentMixin);
   }),
 
-  didInsertElement() {
+  init() {
+    this._super(...arguments);
+    tryInvoke(this, 'initParent');
+    tryInvoke(this, 'initChild');
+  },
+
+  initChild() {
     this._super(...arguments);
     this.registerWithParent();
   },
 
   willDestroyElement() {
+    this._super(...arguments);
+    if (!this._isComposableDestroying) {
+      this._isComposableDestroying = true;
+      tryInvoke(this, 'willDestroyElementParent');
+      tryInvoke(this, 'willDestroyElementChild');
+    }
+  },
+
+  willDestroyElementChild() {
     this._super(...arguments);
     this.unregisterWithParent();
   },
@@ -27,6 +42,8 @@ export default Mixin.create({
   },
 
   destroySelfAndChildren() {
+    // We may be a child-parent. Destroy children if we can.
+    tryInvoke(this, 'destroyChildren');
     tryInvoke(this, 'willDestroyParent');
     this._didInsert = false;
   },
