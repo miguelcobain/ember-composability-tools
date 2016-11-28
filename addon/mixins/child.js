@@ -20,6 +20,12 @@ export default Mixin.create({
     this.unregisterWithParent();
   },
 
+  shouldRegister: true,
+
+  shouldRegisterToParent(/*parentComponent*/) {
+    return this.get('shouldRegister');
+  },
+
   destroySelfAndChildren() {
     tryInvoke(this, 'willDestroyParent');
     this._didInsert = false;
@@ -27,8 +33,10 @@ export default Mixin.create({
 
   registerWithParent() {
     let parentComponent = this.get('parentComponent');
-    assert(`Tried to use ${this} outside the context of a parent component.`, parentComponent);
-    parentComponent.registerChild(this);
+    if (this.shouldRegisterToParent(parentComponent)) {
+      assert(`Tried to use ${this} outside the context of a parent component.`, parentComponent);
+      parentComponent.registerChild(this);
+    }
   },
 
   unregisterWithParent() {

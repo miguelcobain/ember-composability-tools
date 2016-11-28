@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent } from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import { ParentMixin, ChildMixin } from 'ember-composability-tools';
 
@@ -38,4 +39,20 @@ test('child component without hooks doesn\'t error', function(assert) {
   `);
 
   assert.ok(true);
+});
+
+test('child component with `shouldRegister=false` doesn\'t register to parent', function(assert) {
+  let parentSpy = this.parentSpy = this.spy();
+  let childSpy = this.childSpy = this.spy();
+
+  this.render(hbs`
+    {{#parent-component didInsertParent=parentSpy}}
+      {{child-component shouldRegister=false didInsertParent=childSpy}}
+      {{child-component shouldRegister=true didInsertParent=childSpy}}
+    {{/parent-component}}
+  `);
+
+  assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');
+  assert.ok(childSpy.calledOnce, 'child didInsertParent was called once');
+  assert.ok(parentSpy.calledBefore(childSpy), 'parent was called before child');
 });
