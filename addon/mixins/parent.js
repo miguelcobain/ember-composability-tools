@@ -10,7 +10,6 @@ export default Mixin.create({
   },
 
   initParent() {
-    this._super(...arguments);
     this.childComponents = new A();
   },
 
