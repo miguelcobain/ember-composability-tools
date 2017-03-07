@@ -1,6 +1,6 @@
 {
   "name": "ember-composability-tools",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Helpers for building a somewhat different kind of components.",
   "directories": {
     "doc": "doc",
