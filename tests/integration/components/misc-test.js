@@ -4,7 +4,7 @@ import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import { ParentMixin, ChildMixin } from 'ember-composability-tools';
 
-const { Component } = Ember;
+const { Component, Object: EObject, computed } = Ember;
 
 moduleForComponent('misc', 'Integration | Component | misc', {
   integration: true,
@@ -55,4 +55,27 @@ test('child component with `shouldRegister=false` doesn\'t register to parent', 
   assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');
   assert.ok(childSpy.calledOnce, 'child didInsertParent was called once');
   assert.ok(parentSpy.calledBefore(childSpy), 'parent was called before child');
+});
+
+test('init super is called only once per mixin', function(assert) {
+  let customizedObject = EObject.extend({
+    init() {
+      this._super(...arguments);
+      let timesCalled = this.get('timesCalled');
+      this.set('timesCalled', timesCalled + 1);
+    },
+    timesCalled: computed(function() {
+      return 0;
+    })
+  });
+  let parentObject = customizedObject.extend(ParentMixin, { });
+  let childObject = customizedObject.extend(ChildMixin, {
+    parentComponent: null,
+    registerWithParent() {}
+  });
+  let parentInstance = parentObject.create();
+  let childInstance = childObject.create();
+
+  assert.equal(parentInstance.get('timesCalled'), 1, 'Should call parent init super wrapper only once');
+  assert.equal(childInstance.get('timesCalled'), 1, 'Should call child init super wrapper only once');
 });

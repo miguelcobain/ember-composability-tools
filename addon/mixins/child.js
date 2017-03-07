@@ -17,7 +17,6 @@ export default Mixin.create({
   },
 
   initChild() {
-    this._super(...arguments);
     this.registerWithParent();
   },
 
