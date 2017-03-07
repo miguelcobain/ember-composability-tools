@@ -4,7 +4,7 @@ import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import { ParentMixin, ChildMixin } from 'ember-composability-tools';
 
-const { Component, computed, get, set } = Ember;
+const { Component, Object: EObject, computed } = Ember;
 
 moduleForComponent('misc', 'Integration | Component | misc', {
   integration: true,
@@ -57,30 +57,25 @@ test('child component with `shouldRegister=false` doesn\'t register to parent', 
   assert.ok(parentSpy.calledBefore(childSpy), 'parent was called before child');
 });
 
-moduleForComponent('misc', 'Integration | Component | misc init', {
-  integration: true
-});
-
 test('init super is called only once per mixin', function(assert) {
-  const customizedObject = Ember.Object.extend({
+  let customizedObject = EObject.extend({
     init() {
-      const timesCalled = get(this, 'timesCalled');
-      set(this, 'timesCalled', timesCalled + 1);
+      this._super(...arguments);
+      let timesCalled = this.get('timesCalled');
+      this.set('timesCalled', timesCalled + 1);
     },
-    timesCalled: computed({
-      get() {
-        return 0;
-      }
+    timesCalled: computed(function() {
+      return 0;
     })
   });
-  const parentObject = customizedObject.extend(ParentMixin, { });
-  const childObject = customizedObject.extend(ChildMixin, {
+  let parentObject = customizedObject.extend(ParentMixin, { });
+  let childObject = customizedObject.extend(ChildMixin, {
     parentComponent: null,
     registerWithParent() {}
   });
-  const parentInstance = parentObject.create();
-  const childInstance = childObject.create();
+  let parentInstance = parentObject.create();
+  let childInstance = childObject.create();
 
-  assert.equal(get(parentInstance, 'timesCalled'), 1, 'Should call parent init super wrapper only once');
-  assert.equal(get(childInstance, 'timesCalled'), 1, 'Should call child init super wrapper only once');
+  assert.equal(parentInstance.get('timesCalled'), 1, 'Should call parent init super wrapper only once');
+  assert.equal(childInstance.get('timesCalled'), 1, 'Should call child init super wrapper only once');
 });
