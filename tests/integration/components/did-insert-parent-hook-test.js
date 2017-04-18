@@ -56,7 +56,6 @@ module('Integration | Component | didInsertParent hook runs in the correct order
       {{#parent-component didInsertParent=parentSpy}}
         {{#child-parent-component didInsertParent=childParentSpy}}
           {{child-component didInsertParent=childSpy}}
-          {{child-component didInsertParent=childSpy}}
         {{/child-parent-component}}
       {{/parent-component}}
     `);
