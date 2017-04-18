@@ -69,15 +69,17 @@ export default Mixin.create({
     this.childComponents.clear();
   },
 
-  registerChild(childComponent) {
-    this.childComponents.addObject(childComponent);
-
+  childDidInsertElement(childComponent) {
     // If parent already setup, setup child immediately
     if (this._didInsert && !childComponent._didInsert) {
       tryInvoke(childComponent, 'didInsertParent');
       childComponent._didInsert = true;
       tryInvoke(childComponent, 'invokeChildDidInsertHooks');
     }
+  },
+
+  registerChild(childComponent) {
+    this.childComponents.addObject(childComponent);
   },
 
   unregisterChild(childComponent) {
