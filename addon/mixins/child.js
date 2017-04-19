@@ -17,6 +17,11 @@ export default Mixin.create({
     tryInvoke(this, 'initChild');
   },
 
+  didInsertElement() {
+    this._super(...arguments);
+    this.notifyParentOfInsert();
+  },
+
   initChild() {
     this.registerWithParent();
   },
@@ -55,13 +60,13 @@ export default Mixin.create({
     }
   },
 
-  notifyParentOfInsert: on('didInsertElement', function() {
+  notifyParentOfInsert() {
     let parentComponent = this.get('parentComponent');
 
     if (this.shouldRegisterToParent(parentComponent)) {
       parentComponent.childDidInsertElement(this);
     }
-  }),
+  },
 
   unregisterWithParent() {
     let parentComponent = this.get('parentComponent');
