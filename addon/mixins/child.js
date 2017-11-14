@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ParentMixin from './parent';
-const { Mixin, computed, assert, tryInvoke } = Ember;
+const { Mixin, computed, tryInvoke } = Ember;
 
 export default Mixin.create({
 
@@ -49,8 +49,7 @@ export default Mixin.create({
 
   registerWithParent() {
     let parentComponent = this.get('parentComponent');
-    if (this.shouldRegisterToParent(parentComponent)) {
-      assert(`Tried to use ${this} outside the context of a parent component.`, parentComponent);
+    if (parentComponent && this.shouldRegisterToParent(parentComponent)) {
       parentComponent.registerChild(this);
     }
   },
