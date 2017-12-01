@@ -22,7 +22,6 @@
   "dependencies": {
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^1.0.3",
-    "ember-getowner-polyfill": "1.1.1",
     "ember-wormhole": "0.5.1"
   },
   "devDependencies": {
