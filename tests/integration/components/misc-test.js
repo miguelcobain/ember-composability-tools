@@ -1,10 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import EObject, { computed } from '@ember/object';
 import { moduleForComponent } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
 import hbs from 'htmlbars-inline-precompile';
 import { ParentMixin, ChildMixin } from 'ember-composability-tools';
-
-const { Component, Object: EObject, computed } = Ember;
 
 moduleForComponent('misc', 'Integration | Component | misc', {
   integration: true,

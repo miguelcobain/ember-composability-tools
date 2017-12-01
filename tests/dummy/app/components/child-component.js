@@ -1,15 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import ChildMixin from 'ember-composability-tools/mixins/child';
-const { Component } = Ember;
 
 export default Component.extend(ChildMixin, {
   didInsertParent() {
     this._super(...arguments);
-    console.log('didInsertParent - child');
+    console.log('didInsertParent - child'); // eslint-disable-line
   },
 
   willDestroyParent() {
     this._super(...arguments);
-    console.log('willDestroyParent - child');
+    console.log('willDestroyParent - child'); // eslint-disable-line
   }
 });

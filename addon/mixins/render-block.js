@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { computed } from '@ember/object';
+import { getOwner } from '@ember/application';
 import layout from '../templates/render-block';
-
-const { Mixin, computed, getOwner } = Ember;
 
 export default Mixin.create({
   layout,
