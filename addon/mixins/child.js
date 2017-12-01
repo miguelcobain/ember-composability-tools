@@ -1,6 +1,5 @@
 import Mixin from '@ember/object/mixin';
 import { computed } from '@ember/object';
-import { assert } from '@ember/debug';
 import { tryInvoke } from '@ember/utils';
 import ParentMixin from './parent';
 
