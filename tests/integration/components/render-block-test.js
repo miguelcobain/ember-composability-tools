@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { RenderBlockMixin } from 'ember-composability-tools';
-
-const { Component, run } = Ember;
 
 let component;
 

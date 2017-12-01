@@ -1,5 +1,6 @@
-import Ember from 'ember';
-const { Mixin, A, tryInvoke } = Ember;
+import Mixin from '@ember/object/mixin';
+import { A } from '@ember/array';
+import { tryInvoke } from '@ember/utils';
 
 export default Mixin.create({
 

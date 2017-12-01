@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ember-composability-tools
+=======
+# my-addon
+>>>>>>> 9c868f7... message
 
 [![Build Status](https://travis-ci.org/miguelcobain/ember-composability-tools.svg)](https://travis-ci.org/miguelcobain/ember-composability-tools) [![Ember Observer Score](http://emberobserver.com/badges/ember-composability-tools.svg)](http://emberobserver.com/addons/ember-composability-tools) [![Slack Status](https://ember-community-slackin.herokuapp.com/badge.svg)](https://ember-community-slackin.herokuapp.com/)
 
@@ -169,18 +173,18 @@ export default Component.extend(RenderBlockMixin, {
 * `cd ember-composability-tools`
 * `npm install`
 
-## Running
+### Running
 
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
-## Running Tests
+### Running Tests
 
 * `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
-## Building
+### Building
 
 * `ember build`
 
