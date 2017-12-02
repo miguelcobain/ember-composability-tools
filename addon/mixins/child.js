@@ -11,9 +11,9 @@ export default Mixin.create({
     return this.nearestOfType(ParentMixin);
   }),
 
-  init() {
+  didInsertElement() {
     this._super(...arguments);
-    tryInvoke(this, 'initParent');
+
     tryInvoke(this, 'initChild');
   },
 

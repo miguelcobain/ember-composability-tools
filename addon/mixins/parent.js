@@ -1,21 +1,15 @@
+import { computed } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 import { A } from '@ember/array';
 import { tryInvoke } from '@ember/utils';
 
 export default Mixin.create({
-
-  init() {
-    this._super(...arguments);
-    tryInvoke(this, 'initParent');
-    tryInvoke(this, 'initChild');
-  },
-
-  initParent() {
-    this.childComponents = new A();
-  },
+  childComponents: computed(() => new A()),
 
   didInsertElement() {
     this._super(...arguments);
+
+    tryInvoke(this, 'initChild');
 
     // If we are a top-level parent, we should start
     // the `didInsertParent` call chain, starting with ourselves
@@ -48,9 +42,10 @@ export default Mixin.create({
   },
 
   invokeChildDidInsertHooks() {
-    this.childComponents.invoke('didInsertParent');
-    this.childComponents.setEach('_didInsert', true);
-    this.childComponents.invoke('invokeChildDidInsertHooks');
+    const childComponents = this.get('childComponents')
+    childComponents.invoke('didInsertParent');
+    childComponents.setEach('_didInsert', true);
+    childComponents.invoke('invokeChildDidInsertHooks');
   },
 
   destroySelfAndChildren() {
@@ -60,17 +55,19 @@ export default Mixin.create({
   },
 
   destroyChildren() {
-    this.childComponents.reverseObjects();
+    const childComponents = this.get('childComponents')
+    childComponents.reverseObjects();
     // if we have child-parents, destroy their children as well
-    this.childComponents.invoke('destroyChildren');
+    childComponents.invoke('destroyChildren');
     // destroy children
-    this.childComponents.invoke('willDestroyParent');
-    this.childComponents.setEach('_didInsert', false);
-    this.childComponents.clear();
+    childComponents.invoke('willDestroyParent');
+    childComponents.setEach('_didInsert', false);
+    childComponents.clear();
   },
 
   registerChild(childComponent) {
-    this.childComponents.addObject(childComponent);
+    const childComponents = this.get('childComponents')
+    childComponents.addObject(childComponent);
 
     // If parent already setup, setup child immediately
     if (this._didInsert && !childComponent._didInsert) {
@@ -81,7 +78,8 @@ export default Mixin.create({
   },
 
   unregisterChild(childComponent) {
-    this.childComponents.removeObject(childComponent);
+    const childComponents = this.get('childComponents')
+    childComponents.removeObject(childComponent);
 
     // If parent already setup, teardown child immediately
     if (childComponent._didInsert) {
