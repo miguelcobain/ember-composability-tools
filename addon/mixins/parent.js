@@ -38,7 +38,7 @@ export default Mixin.create({
   willDestroyElementParent() {
     this._super(...arguments);
 
-    // this wook will be called depth-first from the top-level component
+    // this hook will be called depth-first from the top-level component
     // since we must destroy childs first, the first parent will
     // be responsible for destroying the children. `this._didInsert` guards
     // that we don't redestroy already destroyed children
