@@ -1,6 +1,6 @@
 # ember-composability-tools
 
-[![Build Status](https://travis-ci.org/miguelcobain/ember-composability-tools.svg)](https://travis-ci.org/miguelcobain/ember-composability-tools) [![Ember Observer Score](http://emberobserver.com/badges/ember-composability-tools.svg)](http://emberobserver.com/addons/ember-composability-tools) [![Slack Status](https://ember-community-slackin.herokuapp.com/badge.svg)](https://ember-community-slackin.herokuapp.com/)
+[![Build Status](https://travis-ci.org/miguelcobain/ember-composability-tools.svg)](https://travis-ci.org/miguelcobain/ember-composability-tools) [![Ember Observer Score](http://emberobserver.com/badges/ember-composability-tools.svg)](http://emberobserver.com/addons/ember-composability-tools) [![Discord](https://img.shields.io/discord/480462759797063690.svg?logo=discord)](https://discord.gg/zT3asNS)
 
 This addon intends to provide helpers for building a somewhat different kind of components, i.e components which primary goal isn't to render DOM.
 
