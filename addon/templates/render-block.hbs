@@ -1,5 +1,5 @@
 {{#if shouldRender}}
-  {{#ember-wormhole destinationElement=destinationElement~}}
+  {{#in-element destinationElement~}}
     {{yield yieldHash}}
-  {{~/ember-wormhole}}
+  {{~/in-element}}
 {{/if}}
