@@ -11,7 +11,7 @@ export default Mixin.create({
   },
 
   initParent() {
-    this.childComponents = new A();
+    this.childComponents = A();
   },
 
   didInsertElement() {
