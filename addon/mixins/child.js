@@ -7,7 +7,7 @@ export default Mixin.create({
 
   // This is intended as an escape hatch, but ideally you would
   // `{{yield` a child contextual component with `parentComponent=this`
-  parentComponent: computed(function() {
+  parentComponent: computed({
     get() {
       if (this._parentComponent) {
         return this._parentComponent;
