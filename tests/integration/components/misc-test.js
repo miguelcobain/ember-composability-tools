@@ -65,8 +65,18 @@ module('Integration | Component | misc', function(hooks) {
         let timesCalled = this.get('timesCalled');
         this.set('timesCalled', timesCalled + 1);
       },
-      timesCalled: computed(function() {
-        return 0;
+      timesCalled: computed({
+        get() {
+          if (this._timesCalled) {
+            return this._timesCalled;
+          }
+
+          return 0;
+        },
+
+        set(key, value) {
+          return this._timesCalled = value;
+        }
       })
     });
     let parentObject = customizedObject.extend(ParentMixin, { });
