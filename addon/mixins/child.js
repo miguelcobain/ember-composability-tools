@@ -7,8 +7,18 @@ export default Mixin.create({
 
   // This is intended as an escape hatch, but ideally you would
   // `{{yield` a child contextual component with `parentComponent=this`
-  parentComponent: computed(function() {
-    return this.nearestOfType(ParentMixin);
+  parentComponent: computed({
+    get() {
+      if (this._parentComponent) {
+        return this._parentComponent;
+      }
+
+      return this.nearestOfType(ParentMixin);
+    },
+
+    set(key, value) {
+      return this._parentComponent = value;
+    }
   }),
 
   init() {
