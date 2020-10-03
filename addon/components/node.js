@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
 export default class Node extends Component {
   children = new Set();
@@ -55,6 +56,7 @@ export default class Node extends Component {
    * it is called by the root initially and recursively to its children
    * @param {HTMLElement} element the root element
    */
+  @action
   didInsertNode(element) {
     this.setup(element);
 
@@ -66,6 +68,7 @@ export default class Node extends Component {
    * it is called by the root initially and recursively to its children
    * @param {HTMLElement} element the root element
    */
+  @action
   willDestroyNode(element) {
     this.children.forEach(c => c.willDestroyNode(element));
 

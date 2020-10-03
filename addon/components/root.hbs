@@ -1,6 +1,6 @@
 <div
-  {{did-insert (action this.didInsertNode)}}
-  {{will-destroy (action this.willDestroyNode)}}
+  {{did-insert this.didInsertNode}}
+  {{will-destroy this.willDestroyNode}}
   ...attributes
 >
   {{yield (component "node" parent=this)}}
