@@ -1,0 +1,30 @@
+{{#if this.show}}
+  <ParentComponent as |Child|>
+
+    <Child @name={{1}}/>
+    <Child @name={{2}}/>
+
+    {{#if this.showParentChild}}
+      <Child @name={{3}} as |Child|>
+
+        {{#if this.showChild}}
+          <Child @name={{4}}/>
+        {{/if}}
+
+        <Child @name={{5}}/>
+
+      </Child>
+    {{/if}}
+
+  </ParentComponent>
+{{/if}}
+
+<br>
+
+<p><pre>show: {{this.show}}</pre></p>
+<p><pre>showParentChild: {{this.showParentChild}}</pre></p>
+<p><pre>showChild: {{this.showChild}}</pre></p>
+
+<button type="button" {{on "click" (fn this.toggle "show")}}>Toggle</button>
+<button type="button" {{on "click" (fn this.toggle "showParentChild")}}>Toggle parent-child</button>
+<button type="button" {{on "click" (fn this.toggle "showChild")}}>Toggle child</button>

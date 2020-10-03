@@ -12,10 +12,10 @@ module('Integration | Component | didInsertParent hook runs in the correct order
     let childSpy = this.childSpy = sinon.spy();
 
     await render(hbs`
-      {{#parent-component didInsertParent=parentSpy}}
-        {{child-component didInsertParent=childSpy}}
-        {{child-component didInsertParent=childSpy}}
-      {{/parent-component}}
+      <Root @didInsertParent={{this.parentSpy}} as |Node|>
+        <Node @didInsertParent={{this.childSpy}}/>
+        <Node @didInsertParent={{this.childSpy}}/>
+      </Root>
     `);
 
     assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');
@@ -29,12 +29,12 @@ module('Integration | Component | didInsertParent hook runs in the correct order
     this.show = false;
 
     await render(hbs`
-      {{#parent-component didInsertParent=parentSpy}}
-        {{#if show}}
-          {{child-component didInsertParent=childSpy}}
-          {{child-component didInsertParent=childSpy}}
+      <Root @didInsertParent={{this.parentSpy}} as |Node|>
+        {{#if this.show}}
+          <Node @didInsertParent={{this.childSpy}}/>
+          <Node @didInsertParent={{this.childSpy}}/>
         {{/if}}
-      {{/parent-component}}
+      </Root>
     `);
 
     assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');
@@ -53,12 +53,12 @@ module('Integration | Component | didInsertParent hook runs in the correct order
     let childParentSpy = this.childParentSpy = sinon.spy();
 
     await render(hbs`
-      {{#parent-component didInsertParent=parentSpy}}
-        {{#child-parent-component didInsertParent=childParentSpy}}
-          {{child-component didInsertParent=childSpy}}
-          {{child-component didInsertParent=childSpy}}
-        {{/child-parent-component}}
-      {{/parent-component}}
+      <Root @didInsertParent={{this.parentSpy}} as |Node|>
+        <Node @didInsertParent={{this.childParentSpy}} as |Node|>
+          <Node @didInsertParent={{this.childSpy}}/>
+          <Node @didInsertParent={{this.childSpy}}/>
+        </Node>
+      </Root>
     `);
 
     assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');
@@ -76,14 +76,14 @@ module('Integration | Component | didInsertParent hook runs in the correct order
     this.show = false;
 
     await render(hbs`
-      {{#parent-component didInsertParent=parentSpy}}
-        {{#if show}}
-          {{#child-parent-component id="cp" didInsertParent=childParentSpy}}
-            {{child-component didInsertParent=childSpy}}
-            {{child-component didInsertParent=childSpy}}
-          {{/child-parent-component}}
+      <Root @didInsertParent={{this.parentSpy}} as |Node|>
+        {{#if this.show}}
+          <Node @didInsertParent={{this.childParentSpy}} as |Node|>
+            <Node @didInsertParent={{this.childSpy}}/>
+            <Node @didInsertParent={{this.childSpy}}/>
+          </Node>
         {{/if}}
-      {{/parent-component}}
+      </Root>
     `);
 
     assert.ok(parentSpy.calledOnce, 'parent didInsertParent was called once');

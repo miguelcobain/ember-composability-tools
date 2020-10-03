@@ -1,0 +1,7 @@
+<div
+  {{did-insert (action this.didInsertNode)}}
+  {{will-destroy (action this.willDestroyNode)}}
+  ...attributes
+>
+  {{yield (component "node" parent=this)}}
+</div>

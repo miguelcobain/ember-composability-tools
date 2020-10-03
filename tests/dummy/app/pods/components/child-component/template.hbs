@@ -1,0 +1,5 @@
+<@node
+  @didInsertParent={{this.didInsertParent}}
+  @willDestroyParent={{this.willDestroyParent}} as |Node|>
+  {{yield (component "child-component" node=Node)}}
+</@node>

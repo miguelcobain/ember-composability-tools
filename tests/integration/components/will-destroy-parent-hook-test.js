@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -13,11 +13,11 @@ module('Integration | Component | willDestroyParent hook runs in the correct ord
     this.show = true;
 
     await render(hbs`
-      {{#if show}}
-        {{#parent-component willDestroyParent=parentSpy}}
-          {{child-component willDestroyParent=childSpy}}
-          {{child-component willDestroyParent=childSpy}}
-        {{/parent-component}}
+      {{#if this.show}}
+        <Root @willDestroyParent={{this.parentSpy}} as |Node|>
+          <Node @willDestroyParent={{this.childSpy}}/>
+          <Node @willDestroyParent={{this.childSpy}}/>
+        </Root>
       {{/if}}
     `);
 
@@ -35,19 +35,19 @@ module('Integration | Component | willDestroyParent hook runs in the correct ord
     this.showChild = this.showParentChild = this.show = true;
 
     await render(hbs`
-      {{#if show}}
-        {{#parent-component id="p1" willDestroyParent=parentSpy}}
-          {{child-component id="c1" willDestroyParent=childSpy}}
-          {{child-component id="c2" willDestroyParent=childSpy}}
-          {{#if showParentChild}}
-            {{#child-parent-component id="cp1" willDestroyParent=childParentSpy}}
-              {{#if showChild}}
-                {{child-component id="c3" willDestroyParent=childSpy}}
+      {{#if this.show}}
+        <Root @willDestroyParent={{this.parentSpy}} as |Node|>
+          <Node @willDestroyParent={{this.childSpy}}/>
+          <Node @willDestroyParent={{this.childSpy}}/>
+          {{#if this.showParentChild}}
+            <Node @willDestroyParent={{this.childParentSpy}} as |Node|>
+              {{#if this.showChild}}
+                <Node @willDestroyParent={{this.childSpy}}/>
               {{/if}}
-              {{child-component id="c4" willDestroyParent=childSpy}}
-            {{/child-parent-component}}
+              <Node @willDestroyParent={{this.childSpy}}/>
+            </Node>
           {{/if}}
-        {{/parent-component}}
+        </Root>
       {{/if}}
     `);
 
@@ -55,7 +55,7 @@ module('Integration | Component | willDestroyParent hook runs in the correct ord
 
     assert.notOk(parentSpy.called, 'parent willDestroyParent was never called');
     assert.notOk(childParentSpy.called, 'child-parent willDestroyParent was never called');
-    assert.ok(childSpy.calledOnce, 'child willDestroyParent was called twice');
+    assert.ok(childSpy.calledOnce, 'child willDestroyParent was called once');
 
     childSpy.resetHistory();
     this.set('showChild', true);
