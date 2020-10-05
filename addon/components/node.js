@@ -85,6 +85,10 @@ export default class Node extends Component {
       this.args.didInsertParent(element);
     }
 
+    if (typeof this.didInsertParent === 'function') {
+      this.didInsertParent(element);
+    }
+
     this._didSetup = true;
   }
 
@@ -96,6 +100,10 @@ export default class Node extends Component {
     // library teardown code goes here
     if (typeof this.args.willDestroyParent === 'function') {
       this.args.willDestroyParent(element);
+    }
+
+    if (typeof this.willDestroyParent === 'function') {
+      this.willDestroyParent(element);
     }
 
     this._didSetup = false;
