@@ -1,7 +1,9 @@
-<div
-  {{did-insert this.didInsertNode}}
-  {{will-destroy this.willDestroyNode}}
-  ...attributes
->
-  {{yield (component "node" parent=this)}}
-</div>
+{{#let (element this.tagName) as |Tag|}}
+  <Tag
+    {{did-insert this.didInsertNode}}
+    {{will-destroy this.willDestroyNode}}
+    ...attributes
+  >
+    {{yield (component "node" parent=this)}}
+  </Tag>
+{{/let}}

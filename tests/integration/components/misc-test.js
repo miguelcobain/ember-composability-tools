@@ -29,4 +29,17 @@ module('Integration | Component | misc', function(hooks) {
 
     assert.ok(true);
   });
+
+  test('can customize root components tag name and attributes', async function(assert) {
+
+    await render(hbs`
+      <Root @tagName="nav" class="custom-tag" as |Node|>
+        <Node>
+          <p>Block content</p>
+        </Node>
+      </Root>
+    `);
+
+    assert.dom('nav.custom-tag').exists({ count: 1 });
+  });
 });

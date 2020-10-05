@@ -102,6 +102,17 @@ In fact, you can also use the provided components directly and use the new hooks
 
 For simpler cases, this might be enough.
 
+Note: you can customize the element that `<Root>` renders by suppying a `@tagName` argument (which defaults to `div`).
+It's also possible to pass in any attributes that will be applied to the element.
+
+Example:
+
+```hbs
+<Root @tagName="nav" class="custom-class" as |Node|>
+  {{!-- ... --}}
+</Root>
+```
+
 ### 2. Access to parent and children
 
 While composing components like we say in our previous ember-leaflet example, we often need to access parent/child components. E.g, when we write:
