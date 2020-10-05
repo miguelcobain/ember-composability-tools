@@ -168,17 +168,19 @@ import { Node } from 'ember-composability-tools';
 
 export default class PopupLayer extends Node {
   get destinationElement() {
+    // creates the dom element that `in-element` will render into
     return document.createElement('div');
   }
 
   didInsertParent(element) {
     L.marker([this.args.lat, this.args.lng])
-      .bindPopup(this.destinationElement)
+      .bindPopup(this.destinationElement) // use the created element
       .addTo(this.args.parent._mapInstance);
   }
 }
 ```
 ```hbs
+{{!-- render into the created element --}}
 {{#in-element this.destinationElement}}
   {{yield}}
 {{/in-element}}
