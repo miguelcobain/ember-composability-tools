@@ -115,7 +115,7 @@ Example:
 
 ### 2. Access to parent and children
 
-While composing components like we say in our previous ember-leaflet example, we often need to access parent/child components. E.g, when we write:
+While composing components like we saw in our previous ember-leaflet example, we often need to access parent/child components. E.g, when we write:
 
 ```hbs
 <LeafletMap @lat={{51.505}} @lng={{-0.09}} @zoom={{13}} as |layers|>
