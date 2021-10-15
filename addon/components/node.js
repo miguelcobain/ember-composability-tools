@@ -25,7 +25,7 @@ export default class Node extends Component {
     // be responsible for destroying the children. `this._didSetup` guards
     // that we don't redestroy already destroyed children
     if (this._didSetup) {
-      this.children.forEach(c => c.willDestroyNode());
+      this.children.forEach((c) => c.willDestroyNode());
       this.teardown();
       this._didSetup = false;
     }
@@ -60,7 +60,7 @@ export default class Node extends Component {
   didInsertNode(element) {
     this.setup(element);
 
-    this.children.forEach(c => c.didInsertNode(element));
+    this.children.forEach((c) => c.didInsertNode(element));
   }
 
   /**
@@ -70,7 +70,7 @@ export default class Node extends Component {
    */
   @action
   willDestroyNode(element) {
-    this.children.forEach(c => c.willDestroyNode(element));
+    this.children.forEach((c) => c.willDestroyNode(element));
 
     this.teardown(element);
   }
