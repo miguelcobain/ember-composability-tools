@@ -62,7 +62,7 @@ Also, we need to use the `{{did-insert}}` modifier at least on `<LeafletMap>` be
 
 Likewise, the destroy lifecycle hooks are not called in the desired order.
 
-**ember-composability-tools** fixes this problem providing components new render and destroy hooks that trigger in our desired order. Those hooks are called `didInsertParent` and `willDestroyParent`.
+**ember-composability-tools** fixes this problem by providing components new render and destroy hooks that trigger in our desired order. Those hooks are called `didInsertParent` and `willDestroyParent`.
 You can subclass the `Root` and `Node` classes, which inherit the glimmer `Component` class. Example:
 
 ```js
