@@ -109,7 +109,7 @@ module(
         childParentSpy.calledOnce,
         'child-parent willDestroyParent was called once'
       );
-      assert.equal(
+      assert.strictEqual(
         childSpy.callCount,
         4,
         'child willDestroyParent was called 4 times'

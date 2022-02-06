@@ -76,7 +76,7 @@ export default class Node extends Component {
   }
 
   /**
-   * The actualy setup logic
+   * The actual setup logic
    * @param {HTMLElement} element
    */
   setup(element) {
@@ -93,7 +93,7 @@ export default class Node extends Component {
   }
 
   /**
-   * The actualy teardown logic
+   * The actual teardown logic
    * @param {HTMLElement} element
    */
   teardown(element) {
