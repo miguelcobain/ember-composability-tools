@@ -27,15 +27,15 @@ module(
 
       assert.ok(
         parentSpy.calledOnce,
-        'parent willDestroyParent was called once'
+        'parent willDestroyParent was called once',
       );
       assert.ok(
         childSpy.calledTwice,
-        'child willDestroyParent was called twice'
+        'child willDestroyParent was called twice',
       );
       assert.ok(
         childSpy.calledBefore(parentSpy),
-        'child was called before parent'
+        'child was called before parent',
       );
     });
 
@@ -66,11 +66,11 @@ module(
 
       assert.notOk(
         parentSpy.called,
-        'parent willDestroyParent was never called'
+        'parent willDestroyParent was never called',
       );
       assert.notOk(
         childParentSpy.called,
-        'child-parent willDestroyParent was never called'
+        'child-parent willDestroyParent was never called',
       );
       assert.ok(childSpy.calledOnce, 'child willDestroyParent was called once');
 
@@ -80,19 +80,19 @@ module(
 
       assert.notOk(
         parentSpy.called,
-        'parent willDestroyParent was never called'
+        'parent willDestroyParent was never called',
       );
       assert.ok(
         childParentSpy.calledOnce,
-        'child-parent willDestroyParent was called once'
+        'child-parent willDestroyParent was called once',
       );
       assert.ok(
         childSpy.calledTwice,
-        'child willDestroyParent was called twice'
+        'child willDestroyParent was called twice',
       );
       assert.ok(
         childSpy.calledBefore(childParentSpy),
-        'child was called before child-parent'
+        'child was called before child-parent',
       );
 
       childSpy.resetHistory();
@@ -103,25 +103,25 @@ module(
 
       assert.ok(
         parentSpy.calledOnce,
-        'parent willDestroyParent was called once'
+        'parent willDestroyParent was called once',
       );
       assert.ok(
         childParentSpy.calledOnce,
-        'child-parent willDestroyParent was called once'
+        'child-parent willDestroyParent was called once',
       );
       assert.strictEqual(
         childSpy.callCount,
         4,
-        'child willDestroyParent was called 4 times'
+        'child willDestroyParent was called 4 times',
       );
       assert.ok(
         childSpy.calledBefore(childParentSpy),
-        'child was called before child-parent'
+        'child was called before child-parent',
       );
       assert.ok(
         childParentSpy.calledBefore(parentSpy),
-        'child-parent was called before parent'
+        'child-parent was called before parent',
       );
     });
-  }
+  },
 );
