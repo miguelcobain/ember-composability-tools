@@ -57,10 +57,10 @@ export default class Node extends Component {
    * @param {HTMLElement} element the root element
    */
   @action
-  didInsertNode(element) {
-    this.setup(element);
+  async didInsertNode(element) {
+    await this.setup(element);
 
-    this.children.forEach((c) => c.didInsertNode(element));
+    await Promise.all([...this.children].map((c) => c.didInsertNode(element)));
   }
 
   /**
@@ -79,17 +79,17 @@ export default class Node extends Component {
    * The actual setup logic
    * @param {HTMLElement} element
    */
-  setup(element) {
+  async setup(element) {
+    this._didSetup = true;
+
     // library setup code goes here
     if (typeof this.args.didInsertParent === 'function') {
-      this.args.didInsertParent(element);
+      await this.args.didInsertParent(element);
     }
 
     if (typeof this.didInsertParent === 'function') {
-      this.didInsertParent(element);
+      await this.didInsertParent(element);
     }
-
-    this._didSetup = true;
   }
 
   /**
