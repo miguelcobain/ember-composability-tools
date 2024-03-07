@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
+import { timeout } from 'ember-concurrency';
 
 module(
   'Integration | Component | didInsertParent hook runs in the correct order',
@@ -134,5 +135,41 @@ module(
         'parent was called before child',
       );
     });
+
+    test('top-level parent and two children with async callbacks', async function (assert) {
+      let parentSpy = (this.parentSpy = sinon.spy());
+      let childSpy = (this.childSpy = sinon.spy());
+      let functionCalls = [];
+      let asyncCallbackFunction = (this.asyncCallbackFunction = async (functionId) => {
+        await timeout(100);
+        functionCalls.push(functionId);
+        this.parentSpy();
+      })
+      let asyncChildCallbackFunction = (this.asyncChildCallbackFunction = async (functionId) => {
+        await timeout(100);
+        functionCalls.push(functionId);
+        this.childSpy();
+      })
+      let nonAsyncChildCallbackFunction = (this.nonAsyncChildCallbackFunction = (functionId) => {
+        functionCalls.push(functionId);
+        this.childSpy();
+      })
+
+      await render(hbs`
+      <Root @didInsertParent={{fn this.asyncCallbackFunction 'p1'}} as |Node|>
+        <Node @didInsertParent={{fn this.asyncChildCallbackFunction 'c1'}}/>
+        <Node @didInsertParent={{fn this.nonAsyncChildCallbackFunction 'c2'}}/>
+      </Root>
+    `);
+
+      assert.ok(this.parentSpy.calledOnce, 'parent didInsertParent was called once');
+      assert.ok(this.childSpy.calledTwice, 'child didInsertParent was called twice');
+      assert.ok(
+        parentSpy.calledBefore(childSpy),
+        'parent was called before child',
+      );
+      assert.deepEqual(functionCalls,['p1', 'c1', 'c2'],'callbacks fired in the proper order')
+    });
+
   },
 );

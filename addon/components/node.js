@@ -60,7 +60,9 @@ export default class Node extends Component {
   async didInsertNode(element) {
     await this.setup(element);
 
-    await Promise.all([...this.children].map((c) => c.didInsertNode(element)));
+    for(let child of [...this.children]){
+      await child.didInsertNode(element);
+    }
   }
 
   /**
