@@ -1,9 +1,13 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { RemotePromise } from 'remote-promises';
 
 export default class Node extends Component {
   children = new Set();
-  _didSetup = false;
+
+  #didTeardown = false;
+  #setupPromise = new RemotePromise();
+  #element;
 
   constructor() {
     super(...arguments);
@@ -14,33 +18,20 @@ export default class Node extends Component {
     }
   }
 
-  willDestroy() {
+  async willDestroy() {
     super.willDestroy(...arguments);
-
-    if (this.args.parent) {
-      this.args.parent.unregisterChild(this);
-    }
-    // this hook will be called depth-first from the top-level component
-    // since we must destroy childs first, the first parent will
-    // be responsible for destroying the children. `this._didSetup` guards
-    // that we don't redestroy already destroyed children
-    if (this._didSetup) {
-      this.children.forEach((c) => c.willDestroyNode());
-      this.teardown();
-      this._didSetup = false;
-    }
+    this.willDestroyRecursive(this.#element);
   }
 
   /**
    * Method invoked by the child components to register themselves with their parent
    * @param {Component} child
    */
-  registerChild(child) {
+  async registerChild(child) {
     this.children.add(child);
 
-    if (this._didSetup) {
-      child.setup();
-    }
+    await this.#setupPromise;
+    child.setup();
   }
 
   /**
@@ -52,60 +43,68 @@ export default class Node extends Component {
   }
 
   /**
-   * method responsible for setting up itself plus its children
-   * it is called by the root initially and recursively to its children
-   * @param {HTMLElement} element the root element
-   */
-  @action
-  didInsertNode(element) {
-    this.setup(element);
-
-    this.children.forEach((c) => c.didInsertNode(element));
-  }
-
-  /**
    * method responsible for tearing down its children plus itself
    * it is called by the root initially and recursively to its children
    * @param {HTMLElement} element the root element
    */
-  @action
-  willDestroyNode(element) {
-    this.children.forEach((c) => c.willDestroyNode(element));
+  async willDestroyRecursive(element) {
+    // this hook will be called depth-first from the top-level component
+    // since we must destroy childs first, the first parent will
+    // be responsible for destroying the children. `this.#didTeardown` guards
+    // that we don't redestroy already destroyed children
+    if (!this.#didTeardown) {
+      this.#didTeardown = true;
 
-    this.teardown(element);
+      // teardown children
+      await Promise.all(
+        [...this.children].map((c) => c.willDestroyRecursive()),
+      );
+      // teardown self
+      await this.teardown(element);
+
+      if (this.args.parent) {
+        this.args.parent.unregisterChild(this);
+      }
+    }
   }
 
   /**
-   * The actual setup logic
-   * @param {HTMLElement} element
+   * method responsible for setting up itself
+   * it is called by the root initially and recursively to its children
+   * @param {HTMLElement} element the root element
    */
-  setup(element) {
-    // library setup code goes here
-    if (typeof this.args.didInsertParent === 'function') {
-      this.args.didInsertParent(element);
-    }
+  @action
+  async setup(element) {
+    try {
+      this.#element = element;
+      // library setup code goes here
+      if (typeof this.args.didInsertParent === 'function') {
+        await this.args.didInsertParent(element);
+      }
 
-    if (typeof this.didInsertParent === 'function') {
-      this.didInsertParent(element);
-    }
+      if (typeof this.didInsertParent === 'function') {
+        await this.didInsertParent(element);
+      }
 
-    this._didSetup = true;
+      this.#setupPromise.resolve();
+    } catch (e) {
+      this.#setupPromise.reject(e);
+      throw e;
+    }
   }
 
   /**
    * The actual teardown logic
    * @param {HTMLElement} element
    */
-  teardown(element) {
+  async teardown(element) {
     // library teardown code goes here
     if (typeof this.args.willDestroyParent === 'function') {
-      this.args.willDestroyParent(element);
+      await this.args.willDestroyParent(element);
     }
 
     if (typeof this.willDestroyParent === 'function') {
-      this.willDestroyParent(element);
+      await this.willDestroyParent(element);
     }
-
-    this._didSetup = false;
   }
 }
