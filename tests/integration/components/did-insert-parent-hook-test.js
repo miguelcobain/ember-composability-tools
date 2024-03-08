@@ -17,11 +17,16 @@ for (let async of [false, true]) {
       setupRenderingTest(hooks);
 
       hooks.beforeEach(function (assert) {
-        this.parentSpy = async function () {
+        this.parentSpy = async function (element) {
           if (async) {
             await sleep(500);
           }
           assert.step('parent');
+          assert.deepEqual(
+            element.tagName,
+            'DIV',
+            'element was passed in for the parent hook',
+          );
         };
         this.childSpy = async function () {
           if (async) {
@@ -39,11 +44,11 @@ for (let async of [false, true]) {
 
       test('top-level parent and two children', async function (assert) {
         await render(hbs`
-        <Root @didInsertParent={{this.parentSpy}} as |Node|>
-          <Node @didInsertParent={{this.childSpy}}/>
-          <Node @didInsertParent={{this.childSpy}}/>
-        </Root>
-      `);
+          <Root @didInsertParent={{this.parentSpy}} as |Node|>
+            <Node @didInsertParent={{this.childSpy}}/>
+            <Node @didInsertParent={{this.childSpy}}/>
+          </Root>
+        `);
 
         assert.verifySteps(['parent', 'child', 'child']);
       });
@@ -52,13 +57,13 @@ for (let async of [false, true]) {
         this.show = false;
 
         await render(hbs`
-        <Root @didInsertParent={{this.parentSpy}} as |Node|>
-          {{#if this.show}}
-            <Node @didInsertParent={{this.childSpy}}/>
-            <Node @didInsertParent={{this.childSpy}}/>
-          {{/if}}
-        </Root>
-      `);
+          <Root @didInsertParent={{this.parentSpy}} as |Node|>
+            {{#if this.show}}
+              <Node @didInsertParent={{this.childSpy}}/>
+              <Node @didInsertParent={{this.childSpy}}/>
+            {{/if}}
+          </Root>
+        `);
 
         assert.verifySteps(['parent']);
 
@@ -71,13 +76,13 @@ for (let async of [false, true]) {
 
       test('top-level parent and two children-parents', async function (assert) {
         await render(hbs`
-        <Root @didInsertParent={{this.parentSpy}} as |NodeA|>
-          <NodeA @didInsertParent={{this.childParentSpy}} as |NodeB|>
-            <NodeB @didInsertParent={{this.childSpy}}/>
-            <NodeB @didInsertParent={{this.childSpy}}/>
-          </NodeA>
-        </Root>
-      `);
+          <Root @didInsertParent={{this.parentSpy}} as |NodeA|>
+            <NodeA @didInsertParent={{this.childParentSpy}} as |NodeB|>
+              <NodeB @didInsertParent={{this.childSpy}}/>
+              <NodeB @didInsertParent={{this.childSpy}}/>
+            </NodeA>
+          </Root>
+        `);
 
         assert.verifySteps(['parent', 'child-parent', 'child', 'child']);
       });
@@ -86,15 +91,15 @@ for (let async of [false, true]) {
         this.show = false;
 
         await render(hbs`
-        <Root @didInsertParent={{this.parentSpy}} as |NodeA|>
-          {{#if this.show}}
-            <NodeA @didInsertParent={{this.childParentSpy}} as |NodeB|>
-              <NodeB @didInsertParent={{this.childSpy}}/>
-              <NodeB @didInsertParent={{this.childSpy}}/>
-            </NodeA>
-          {{/if}}
-        </Root>
-      `);
+          <Root @didInsertParent={{this.parentSpy}} as |NodeA|>
+            {{#if this.show}}
+              <NodeA @didInsertParent={{this.childParentSpy}} as |NodeB|>
+                <NodeB @didInsertParent={{this.childSpy}}/>
+                <NodeB @didInsertParent={{this.childSpy}}/>
+              </NodeA>
+            {{/if}}
+          </Root>
+        `);
 
         assert.verifySteps(['parent']);
 
