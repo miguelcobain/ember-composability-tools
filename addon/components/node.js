@@ -1,12 +1,11 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { RemotePromise } from 'remote-promises';
 
 export default class Node extends Component {
   children = new Set();
 
   #didTeardown = false;
-  #setupPromise = new RemotePromise();
+  #setupPromise = Promise.withResolvers();
   #element;
 
   constructor() {
