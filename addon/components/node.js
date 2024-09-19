@@ -29,7 +29,7 @@ export default class Node extends Component {
   async registerChild(child) {
     this.children.add(child);
 
-    await this.#setupPromise;
+    await this.#setupPromise.promise;
     child.setup();
   }
 
