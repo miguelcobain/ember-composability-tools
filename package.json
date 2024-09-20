@@ -36,8 +36,7 @@
     "ember-auto-import": "^2.6.3",
     "ember-cli-babel": "^8.0.0",
     "ember-cli-htmlbars": "^6.3.0",
-    "ember-element-helper": "^0.8.4",
-    "remote-promises": "^1.0.0"
+    "ember-element-helper": "^0.8.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.10",
