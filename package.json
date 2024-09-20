@@ -1,6 +1,6 @@
 {
   "name": "ember-composability-tools",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Helpers for building a somewhat different kind of components.",
   "keywords": [
     "ember-addon",
